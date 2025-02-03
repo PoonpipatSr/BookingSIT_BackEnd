@@ -1,0 +1,23 @@
+services:
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - ./client/.env
+    ports:
+      - "80:80"
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - ./server/.env
+    ports:
+      - "3000:3000"
+    # network_mode: "host"
