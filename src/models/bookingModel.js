@@ -24,3 +24,10 @@ export const updateBooking = async (BTIMEIN, BTIMEOUT, BDETAILS, BID) => {
     )
     return response;
 }
+
+export const deleteBooking = async (BID) => {
+    await db.promise().query(
+        `DELETE FROM BOOKING
+        WHERE BID = ?;` [BID]
+    )
+}
