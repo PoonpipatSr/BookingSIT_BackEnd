@@ -21,7 +21,7 @@ app.get("/api/users", async (req, res) => {
         );
         return res.status(200).json({
             success: true,
-            data: booking,
+            data: response,
             message: "Booking retrieved successfully"
         })
     } catch (error) {
