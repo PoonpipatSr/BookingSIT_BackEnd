@@ -22,7 +22,7 @@ export const createBooking = async (req, res) => {
     try {
         const getValue = req.body
         const newBooking = await bookingModel.createBooking(getValue);
-        return res.status(200).json({
+        return res.status(201).json({
             success: true,
             data: newBooking,
             message: "Booking created successfully"
@@ -40,8 +40,15 @@ export const createBooking = async (req, res) => {
 export const updateBooking = async (req, res) => {
     try {
         const updateValue = req.params.BID
-        const getValue = req.body
-        const updateBooking = await bookingModel.updateBooking(getValue, updateValue)
+        const {BTIMEIN, BTIMEOUT, BDETAILS} = req.body
+        if (BTIMEIN || BTIMEOUT || BDETAILS){
+            return res.status(400).json({
+                success: false,
+                data: null,
+                message: "BTIMEIN BTIMEOUT BDETAILS must require"
+            })
+        }
+        const updateBooking = await bookingModel.updateBooking(BTIMEIN, BTIMEOUT, BDETAILS, updateValue)
         return res.status(200).json({
             success: true,
             data: updateBooking,
