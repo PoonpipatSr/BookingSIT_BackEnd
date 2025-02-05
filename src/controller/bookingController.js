@@ -18,56 +18,41 @@ export const getAllBooking = async (req, res) => {
     }
 }
 
-export const createOwnedBooking = async (req, res) => {
+export const createBooking = async (req, res) => {
     try {
-        const newBooking = await bookingModel.createOwnedBooking(req.body);
-        return res.status(201).json({
+        const getValue = req.body
+        const newBooking = await bookingModel.createBooking(getValue);
+        return res.status(200).json({
             success: true,
             data: newBooking,
             message: "Booking created successfully"
-        });
+        })
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({
             success: false,
             data: null,
             message: "Internal server error"
-        });
+        })
     }
-};
+}
 
-export const updateOwnedBooking = async (req, res) => {
+export const updateBooking = async (req, res) => {
     try {
-        const updatedBooking = await bookingModel.updateOwnedBooking(req.params.id, req.body);
+        const updateValue = req.params.BID
+        const getValue = req.body
+        const updateBooking = await bookingModel.updateBooking(getValue, updateValue)
         return res.status(200).json({
             success: true,
-            data: updatedBooking,
+            data: updateBooking,
             message: "Booking updated successfully"
-        });
+        })
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({
             success: false,
             data: null,
             message: "Internal server error"
-        });
+        })
     }
-};
-
-export const deleteOwnedBooking = async (req, res) => {
-    try {
-        await bookingModel.deleteOwnedBooking(req.params.id);
-        return res.status(200).json({
-            success: true,
-            data: null,
-            message: "Booking deleted successfully"
-        });
-    } catch (error) {
-        console.log("Error: ", error);
-        return res.status(500).json({
-            success: false,
-            data: null,
-            message: "Internal server error"
-        });
-    }
-};
+}
