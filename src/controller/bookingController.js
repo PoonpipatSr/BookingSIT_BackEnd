@@ -18,10 +18,14 @@ export const getAllBooking = async (req, res) => {
     }
 }
 
+
 export const createBooking = async (req, res) => {
     try {
-        const getValue = req.body
-        const newBooking = await bookingModel.createBooking(getValue);
+        const { BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIMEOUT, BDETAILS, RID} = req.body
+
+        //ดัก error อีกรอบ
+
+        const newBooking = await bookingModel.createBooking( BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIMEOUT, BDETAILS, RID);
         return res.status(201).json({
             success: true,
             data: newBooking,
@@ -41,7 +45,7 @@ export const updateBooking = async (req, res) => {
     try {
         const updateValue = req.params.BID
         const {BTIMEIN, BTIMEOUT, BDETAILS} = req.body
-        if (BTIMEIN || BTIMEOUT || BDETAILS){
+        if (!BTIMEIN || !BTIMEOUT || !BDETAILS){
             return res.status(400).json({
                 success: false,
                 data: null,
@@ -66,7 +70,7 @@ export const updateBooking = async (req, res) => {
 
 export const deleteBooking = async (req, res) => {
     try {
-        const getId = req.body.BID
+        const getId = req.params.BID
         const deleteBooking = await bookingModel.deleteBooking(getId)
         return res.status(200).json({
             success: true,

@@ -9,10 +9,10 @@ export const getAllBooking = async () => {
     return response;
 }
 
-export const createBooking = async (BID, BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIMEOUT, BTIMEDISTANCE, BDETAILS, RID) => {
+export const createBooking = async (BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIMEOUT, BDETAILS, RID) => {
     await db.promise().query(
-        `INSERT INTO BOOKING (BID, BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIMEOUT, BTIMEDISTANCE, BDETAILS, RID)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [BID, BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIMEOUT, BTIMEDISTANCE, BDETAILS, RID]
+        `INSERT INTO BOOKING (BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIMEOUT, BDETAILS, RID)
+        VALUES (?, ?, ?, ?, ?, ?, ?)`, [BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIMEOUT, BDETAILS, RID]
     )
 }
 
@@ -28,6 +28,6 @@ export const updateBooking = async (BTIMEIN, BTIMEOUT, BDETAILS, BID) => {
 export const deleteBooking = async (BID) => {
     await db.promise().query(
         `DELETE FROM BOOKING
-        WHERE BID = ?;` [BID]
+        WHERE BID = ?`, [BID]
     )
 }
