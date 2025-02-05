@@ -3,6 +3,6 @@ import * as bookingController from "../controller/bookingController.js"
 
 const bookingRoute = express.Router();
 
-bookingRoute.get("/owned", bookingController.getOwnedBooking);
+bookingRoute.get("/owned/:id", bookingController.getAllBooking);
 
 export default bookingRoute
