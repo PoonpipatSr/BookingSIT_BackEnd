@@ -86,3 +86,32 @@ export const deleteBooking = async (req, res) => {
         })
     }
 }
+
+export const isAvailable = async (req, res) => {
+    try {
+        const { BTIMEIN, BTIMEOUT } = req.body;
+        const status = await bookingModel.isAvailable(BTIMEIN, BTIMEOUT);
+
+        const roomStatus = status[0]?.RoomStatus;
+        
+        if (roomStatus === 'Not Available') {
+            return res.status(200).json({
+                success: false,
+                data: null,
+                message: `The room is in use during ${status[0]?.NextAvailableFrom} ถึง ${status[0]?.NextAvailableUntil}`
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            data: true,
+            message: "Room is available"
+        });
+    } catch (error) {
+        console.log("Error: ", error);
+        return res.status(500).json({
+            success: false,
+            data: null,
+            message: "Internal server error"
+        });
+    }
+};
