@@ -26,23 +26,9 @@ export const updateBooking = async (BTIMEIN, BTIMEOUT, BDETAILS, BID) => {
 }
 
 export const deleteBooking = async (BID) => {
-    await db.promise().query(
+    const [response] = await db.promise().query(
         `DELETE FROM BOOKING
         WHERE BID = ?`, [BID]
-    )
-}
-
-export const isAvailable = async (RID, BTIMEIN, BTIMEOUT) => {
-    const [response] = await db.promise().query(
-        `SELECT 
-            CASE 
-                WHEN COUNT(*) > 0 THEN 'Not Available' 
-                ELSE 'Available' 
-            END AS RoomStatus,
-            MIN(BTIMEIN) AS NextAvailableFrom,
-            MAX(BTIMEOUT) AS NextAvailableUntil
-        FROM BOOKING
-        WHERE (BTIMEIN < ? AND BTIMEOUT > ?);`, [BTIMEOUT, BTIMEIN]
     )
     return response
 }

@@ -11,7 +11,6 @@ app.use(express.json());
 
 app.use("/api/booking", bookingRoute) // ตั้ง path เอง
 
-
 connection.connect((err) => {
     if(err) {
         console.log(err);
