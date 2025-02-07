@@ -32,7 +32,7 @@ export const deleteBooking = async (BID) => {
     )
 }
 
-export const isAvailable = async (BTIMEIN, BTIMEOUT) => {
+export const isAvailable = async (RID, BTIMEIN, BTIMEOUT) => {
     const [response] = await db.promise().query(
         `SELECT 
             CASE 
