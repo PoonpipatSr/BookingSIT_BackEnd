@@ -18,7 +18,7 @@ export const createBooking = async (BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIME
 
 export const updateBooking = async (BTIMEIN, BTIMEOUT, BDETAILS, BID) => {
     const [response] = await db.promise().query(
-        `UPDATE BOOKING
+        `UPDATE BOOKING 
         SET BTIMEIN = ?, BTIMEOUT = ?, BDETAILS = ?
         WHERE BID = ?`, [BTIMEIN, BTIMEOUT, BDETAILS, BID]
     )
