@@ -57,6 +57,13 @@ export const updateBooking = async (req, res) => {
             })
         }
         const updateBooking = await bookingModel.updateBooking(BTIMEIN, BTIMEOUT, BDETAILS, updateValue)
+        if (updateBooking.affectedRows === 0) {
+            return res.status(404).json({
+                success: false,
+                data: null,
+                message: "Booking ID not found"
+            })
+        }
         return res.status(200).json({
             success: true,
             data: updateBooking,
