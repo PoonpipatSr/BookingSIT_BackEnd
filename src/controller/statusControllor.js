@@ -18,7 +18,6 @@ export const isAvailable = async (req, res) => {
             BTIMEOUT: formatDateTime(item.BTIMEOUT)
         }));
         
-        
         if (response.length > 0) {
             return res.status(200).json({ 
                 success: true,
