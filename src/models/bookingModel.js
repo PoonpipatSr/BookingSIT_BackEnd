@@ -42,17 +42,11 @@ export const createBooking = async (BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIME
 export const updateBooking = async (BTIMEIN, BTIMEOUT, BDETAILS, BID) => {
     const [response] = await db.promise().query(
         `UPDATE BOOKING 
-        SET BTIMEIN = ?, BTIMEOUT = ?, BDETAILS = ?
-        WHERE BID = ?`, [BTIMEIN, BTIMEOUT, BDETAILS, BID]
+        SET BTIMEIN = ?, BTIMEOUT = ?, BDETAILS = CASE WHEN ? IS NOT NULL THEN ? ELSE BDETAILS END
+        WHERE BID = ?`, 
+        [BTIMEIN, BTIMEOUT, BDETAILS, BDETAILS, BID]
     )
-    const formattedBooking = response.map(item => ({
-        ...item,
-        BTIMEIN: formatDateTime(item.BTIMEIN),
-        BTIMEOUT: formatDateTime(item.BTIMEOUT)
-    }));
-    
-    console.log("model: ", formattedBooking);
-    return formattedBooking;
+    return response;
 }
 
 export const deleteBooking = async (BID) => {
