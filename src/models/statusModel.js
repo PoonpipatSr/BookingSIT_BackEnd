@@ -7,7 +7,5 @@ export const isAvailable = async (RID, BTIMEOUT, BTIMEIN) => {
         WHERE RID = ?
         AND NOT (BTIMEOUT <= ? OR BTIMEIN >= ?);`, [RID, BTIMEIN, BTIMEOUT]
     )
-    console.log(response);
-    
     return response
 }
