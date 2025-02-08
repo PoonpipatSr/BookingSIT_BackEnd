@@ -102,6 +102,13 @@ export const deleteBooking = async (req, res) => {
     try {
         const getId = req.params.BID
         const deleteBooking = await bookingModel.deleteBooking(getId)
+        if (deleteBooking.affectedRows === 0) {
+            return res.status(404).json({
+                success: false,
+                data: null,
+                message: "Booking ID not found"
+            })
+        }
         return res.status(200).json({
             success: true,
             data: deleteBooking,
