@@ -1,12 +1,35 @@
 import db from "../config/database.js"
+import { formatDateTime } from "../utils/timeFormat.js";
 
 export const getAllBooking = async () => {
     const [response] = await db.promise().query(
         `SELECT *
         FROM BOOKING`
     );
-    console.log("model: ", response);
-    return response;
+    const formattedBooking = response.map(item => ({
+        ...item,
+        BTIMEIN: formatDateTime(item.BTIMEIN),
+        BTIMEOUT: formatDateTime(item.BTIMEOUT)
+    }));
+    
+    console.log("model: ", formattedBooking);
+    return formattedBooking;
+}
+
+export const getBooking = async (BID) => {
+    const [response] = await db.promise().query(
+        `SELECT *
+        FROM BOOKING
+        WHERE BID = ?`, [BID]
+    );
+    const formattedBooking = response.map(item => ({
+        ...item,
+        BTIMEIN: formatDateTime(item.BTIMEIN),
+        BTIMEOUT: formatDateTime(item.BTIMEOUT)
+    }));
+    
+    console.log("model: ", formattedBooking);
+    return formattedBooking;
 }
 
 export const createBooking = async (BFIRSTNAME, BLASTNAME, BROLE, BTIMEIN, BTIMEOUT, BDETAILS, RID) => {
@@ -22,7 +45,14 @@ export const updateBooking = async (BTIMEIN, BTIMEOUT, BDETAILS, BID) => {
         SET BTIMEIN = ?, BTIMEOUT = ?, BDETAILS = ?
         WHERE BID = ?`, [BTIMEIN, BTIMEOUT, BDETAILS, BID]
     )
-    return response;
+    const formattedBooking = response.map(item => ({
+        ...item,
+        BTIMEIN: formatDateTime(item.BTIMEIN),
+        BTIMEOUT: formatDateTime(item.BTIMEOUT)
+    }));
+    
+    console.log("model: ", formattedBooking);
+    return formattedBooking;
 }
 
 export const deleteBooking = async (BID) => {
