@@ -1,22 +1,33 @@
 import * as statusModel from '../models/statusModel.js';
+import { formatDateTime } from '../utils/timeFormat.js';
 
 export const isAvailable = async (req, res) => {
     try {
         const { RID, BTIMEIN, BTIMEOUT } = req.body;
-        const status = await statusModel.isAvailable(RID, BTIMEOUT, BTIMEIN);
+        
+        if (!RID || !BTIMEIN || !BTIMEOUT) {
+            return res.status(400).json({ error: "Missing required parameters" });
+        }
+        
+        const response = await statusModel.isAvailable(RID, BTIMEOUT, BTIMEIN)
+        const conflicts = response.flat();
+        
+        const formattedConflicts = conflicts.map(item => ({
+            ...item,
+            BTIMEIN: formatDateTime(item.BTIMEIN),
+            BTIMEOUT: formatDateTime(item.BTIMEOUT)
+        }));
 
-        const roomStatus = status[0]?.roomStatus;
-
-        if (roomStatus === 'NotAvailable') {
-            return res.status(200).json({
-                success: false,
-                data: null,
-                message: `The room is in use`
+        if (response.length > 0) {
+            return res.status(200).json({ 
+                success: true,
+                available: false,
+                conflicts: formattedConflicts
             });
         }
         return res.status(200).json({
             success: true,
-            data: true,
+            available: true,
             message: "Room is available"
         });
     } catch (error) {
@@ -25,6 +36,6 @@ export const isAvailable = async (req, res) => {
             success: false,
             data: null,
             message: "Internal server error"
-        });
+        })
     }
 };

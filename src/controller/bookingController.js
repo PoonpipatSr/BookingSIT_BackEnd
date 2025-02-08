@@ -56,14 +56,6 @@ export const updateBooking = async (req, res) => {
                 message: "TimeIn and TimeOut must require"
             })
         }
-        const existingBooking = await bookingModel.findById(updateValue);
-        if (!existingBooking) {
-            return res.status(404).json({
-                success: false,
-                data: null,
-                message: "BookingID not found"
-            });
-        }
         const updateBooking = await bookingModel.updateBooking(BTIMEIN, BTIMEOUT, BDETAILS, updateValue)
         return res.status(200).json({
             success: true,

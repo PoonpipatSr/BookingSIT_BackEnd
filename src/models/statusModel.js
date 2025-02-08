@@ -5,8 +5,7 @@ export const isAvailable = async (RID, BTIMEOUT, BTIMEIN) => {
         `SELECT RID, BTIMEIN, BTIMEOUT
         FROM BOOKING
         WHERE RID = ?
-        AND BTIMEIN > ?
-        AND BTIMEOUT < ?;`, [RID, BTIMEOUT, BTIMEIN]
+        AND NOT (BTIMEOUT <= ? OR BTIMEIN >= ?);`, [RID, BTIMEIN, BTIMEOUT]
     )
     console.log(response);
     
